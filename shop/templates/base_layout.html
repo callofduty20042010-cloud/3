@@ -1,0 +1,97 @@
+{% load static %}
+{% load brands %}
+
+{% load categories %}
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Title</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+   
+</head>
+<body>
+<section class="hero">
+   <div class="hero-head">
+       <nav class="navbar" role="navigation" aria-label="main navigation">
+           <div class="navbar-brand">
+               <a class="navbar-item" href="{% url 'shop:product_list' %}">
+                    <img src="{% static 'shop/img/logo.png' %}" width="80" height="40" alt="Logo">
+               </a>
+               <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                  data-target="navbarBasicExample">
+                   <span aria-hidden="true"></span>
+                   <span aria-hidden="true"></span>
+                   <span aria-hidden="true"></span>
+               </a>
+           </div>
+           {% if user.is_authenticated %}
+           <div id="navbarBasicExample" class="navbar-menu">
+               <div class="navbar-start">
+                   {% brands %}
+                   {% categories %}
+               </div>
+               {% if user.is_authenticated %}
+               <form action="{% url 'shop:product_list' %}" method="get">
+                        <div class="field has-addons mt-4 mr-2">
+                            <div class="control">
+                                <input class="input" type="search" placeholder="Find a product" name="search">
+                            </div>
+                            <div class="control">
+                                <button class="button is-info" type="submit">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                <a class="button is-warning is-outlined my-4 mx-1">
+                    Welcome: {{ user }}
+                </a>
+                <a class="navbar-item order" href="{% url 'shop:cart' %}">
+                            <button class="button is-success">
+                                <ion-icon name="cart-outline" class="mr-2"></ion-icon>
+                                Cart
+                            </button>
+                         </a>
+                    <a href="{% url 'users:sign_out' %}" class="navbar-item button is-danger">
+                        Logout
+                    </a>
+                <a class="navbar-item order" class="purple">
+                    <button onclick="toggleTheme()">Сменить тему</button>
+                </a>
+                {% endif %}
+           </div>
+           {% endif %}
+       </nav>
+   </div>
+   <div class="hero-body">
+       {% block auth %}
+       {% endblock %}
+
+       {% block slider %}
+       {% endblock %}
+
+       {% block content %}
+       {% endblock %}
+
+   </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
+<script>
+   bulmaCarousel.attach('#carousel-demo', {
+        slidesToScroll: 1,
+        slidesToShow: 1,
+        infinite: true,
+   });
+</script>
+    <script>"https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"</script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script>
+function toggleTheme() {
+    document.body.classList.toggle('dark');
+}
+</script>
+</body>
+</html>

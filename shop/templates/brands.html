@@ -1,0 +1,13 @@
+<div class="navbar-item has-dropdown is-hoverable">
+    <a class="navbar-link">
+        Choose brand
+    </a>
+    <div class="navbar-dropdown">
+        {% for brand in brands %}
+            <a href="{% url 'shop:product_list' %}?brand={{ brand.pk }}" class="navbar-item">
+                {{ brand }}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
